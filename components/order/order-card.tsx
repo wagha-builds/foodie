@@ -1,11 +1,22 @@
 "use client";
 
-import Link from "next/link"; // FIXED: Use Next.js Link
+import Link from "next/link";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import type { Order, OrderStatusType } from "../../shared/schema";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import type { Order } from "../../shared/schema"; //
 import { 
   MapPin, 
   Clock, 
@@ -13,7 +24,7 @@ import {
   ArrowRight,
   RotateCcw,
   Star,
-  Phone,
+  XCircle
 } from "lucide-react";
 import { SiWhatsapp } from "react-icons/si";
 import { cn } from "@/lib/utils";
@@ -22,10 +33,12 @@ interface OrderCardProps {
   order: Order & {
     restaurant?: { name: string; imageUrl?: string | null };
   };
+  onCancel?: () => void;
+  isCancelling?: boolean;
 }
 
 const statusConfig: Record<string, { label: string; color: string; bgColor: string }> = {
-  pending: { label: "Pending", color: "text-yellow-600", bgColor: "bg-yellow-100 dark:bg-yellow-900/30" },
+  pending: { label: "Placed", color: "text-yellow-600", bgColor: "bg-yellow-100 dark:bg-yellow-900/30" },
   accepted: { label: "Accepted", color: "text-blue-600", bgColor: "bg-blue-100 dark:bg-blue-900/30" },
   preparing: { label: "Preparing", color: "text-orange-600", bgColor: "bg-orange-100 dark:bg-orange-900/30" },
   ready: { label: "Ready", color: "text-purple-600", bgColor: "bg-purple-100 dark:bg-purple-900/30" },
@@ -35,9 +48,13 @@ const statusConfig: Record<string, { label: string; color: string; bgColor: stri
   cancelled: { label: "Cancelled", color: "text-red-600", bgColor: "bg-red-100 dark:bg-red-900/30" },
 };
 
-export function OrderCard({ order }: OrderCardProps) {
+export function OrderCard({ order, onCancel, isCancelling }: OrderCardProps) {
   const config = statusConfig[order.status] || statusConfig.pending;
   const isActive = !["delivered", "cancelled"].includes(order.status);
+  
+  // Only allow cancellation if the order is still in the "pending" (Placed) state.
+  const isCancellable = order.status === "pending"; 
+  
   const items = order.items || [];
 
   const formatDate = (date: Date | string | null) => {
@@ -135,16 +152,47 @@ export function OrderCard({ order }: OrderCardProps) {
           </div>
         )}
 
-        <div className="flex items-center gap-2 pt-2">
+        <div className="flex items-center gap-3 pt-2">
           {isActive ? (
             <>
-              {/* FIXED: Use asChild to merge Button styling with Next.js Link */}
+              {/* Track Order Button */}
               <Button asChild variant="default" className="flex-1" data-testid="button-track-order">
                 <Link href={`/order/${order.id}`}>
                   <Package className="h-4 w-4 mr-2" />
                   Track Order
                 </Link>
               </Button>
+
+              {/* Cancel Order Button (Only visible if cancellable) */}
+              {isCancellable && onCancel && (
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button 
+                      variant="destructive" 
+                      className="flex-1 bg-red-600 hover:bg-red-700 text-white"
+                      disabled={isCancelling}
+                      data-testid="button-cancel-order"
+                    >
+                      <XCircle className="h-4 w-4 mr-2" />
+                      Cancel Order
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Cancel Order?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Are you sure you want to cancel this order? This action cannot be undone.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>No, Keep it</AlertDialogCancel>
+                      <AlertDialogAction onClick={onCancel} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                        Yes, Cancel Order
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              )}
               
               <Button
                 variant="outline"
@@ -163,7 +211,6 @@ export function OrderCard({ order }: OrderCardProps) {
             </>
           ) : (
             <>
-              {/* FIXED: Use asChild here as well */}
               <Button asChild variant="outline" className="flex-1" data-testid="button-view-details">
                 <Link href={`/order/${order.id}`}>
                   View Details

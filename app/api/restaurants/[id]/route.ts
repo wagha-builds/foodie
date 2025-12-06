@@ -1,20 +1,18 @@
 import { NextResponse } from "next/server";
-import { storage } from "@/lib/storage"; 
+import { storage } from "@/lib/storage";
 
-// FIX: Add Promise type
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  // FIX: Await params
   const { id } = await params;
 
-  // Fetch dishes using the awaited ID
-  const dishes = await storage.getDishes(id);
+  // FIX: Fetch the RESTAURANT details, not dishes
+  const restaurant = await storage.getRestaurant(id);
 
-  if (!dishes) {
-    return NextResponse.json({ error: "Dishes not found" }, { status: 404 });
+  if (!restaurant) {
+    return NextResponse.json({ error: "Restaurant not found" }, { status: 404 });
   }
 
-  return NextResponse.json(dishes);
+  return NextResponse.json(restaurant);
 }
