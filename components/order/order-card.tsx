@@ -1,4 +1,6 @@
-import { Link } from "wouter";
+"use client";
+
+import Link from "next/link"; // FIXED: Use Next.js Link
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -63,7 +65,6 @@ export function OrderCard({ order }: OrderCardProps) {
     >
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-4">
-          {/* Restaurant Info */}
           <div className="flex items-center gap-3 min-w-0">
             <div className="h-12 w-12 rounded-lg overflow-hidden bg-muted flex-shrink-0">
               {order.restaurant?.imageUrl ? (
@@ -90,7 +91,6 @@ export function OrderCard({ order }: OrderCardProps) {
             </div>
           </div>
 
-          {/* Status Badge */}
           <Badge className={cn("flex-shrink-0", config.bgColor, config.color)}>
             {config.label}
           </Badge>
@@ -98,7 +98,6 @@ export function OrderCard({ order }: OrderCardProps) {
       </CardHeader>
 
       <CardContent className="space-y-4">
-        {/* Order Items */}
         <div className="space-y-1">
           {items.slice(0, 3).map((item: { quantity: number; dishName: string; totalPrice: number }, idx: number) => (
             <div key={idx} className="flex items-center justify-between text-sm">
@@ -117,19 +116,16 @@ export function OrderCard({ order }: OrderCardProps) {
 
         <Separator />
 
-        {/* Total */}
         <div className="flex items-center justify-between font-semibold">
           <span>Total</span>
           <span>{Number(order.total).toFixed(2)}</span>
         </div>
 
-        {/* Delivery Address */}
         <div className="flex items-start gap-2 text-sm text-muted-foreground">
           <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
           <span className="line-clamp-2">{order.deliveryAddress}</span>
         </div>
 
-        {/* ETA for active orders */}
         {isActive && order.estimatedDeliveryTime && (
           <div className="flex items-center gap-2 p-3 bg-primary/10 rounded-lg">
             <Clock className="h-4 w-4 text-primary" />
@@ -139,16 +135,17 @@ export function OrderCard({ order }: OrderCardProps) {
           </div>
         )}
 
-        {/* Actions */}
         <div className="flex items-center gap-2 pt-2">
           {isActive ? (
             <>
-              <Link href={`/order/${order.id}`} className="flex-1">
-                <Button variant="default" className="w-full" data-testid="button-track-order">
+              {/* FIXED: Use asChild to merge Button styling with Next.js Link */}
+              <Button asChild variant="default" className="flex-1" data-testid="button-track-order">
+                <Link href={`/order/${order.id}`}>
                   <Package className="h-4 w-4 mr-2" />
                   Track Order
-                </Button>
-              </Link>
+                </Link>
+              </Button>
+              
               <Button
                 variant="outline"
                 size="icon"
@@ -166,12 +163,14 @@ export function OrderCard({ order }: OrderCardProps) {
             </>
           ) : (
             <>
-              <Link href={`/order/${order.id}`} className="flex-1">
-                <Button variant="outline" className="w-full" data-testid="button-view-details">
+              {/* FIXED: Use asChild here as well */}
+              <Button asChild variant="outline" className="flex-1" data-testid="button-view-details">
+                <Link href={`/order/${order.id}`}>
                   View Details
                   <ArrowRight className="h-4 w-4 ml-2" />
-                </Button>
-              </Link>
+                </Link>
+              </Button>
+              
               {order.status === "delivered" && (
                 <Button variant="outline" size="icon" data-testid="button-rate-order">
                   <Star className="h-4 w-4" />
@@ -186,4 +185,4 @@ export function OrderCard({ order }: OrderCardProps) {
       </CardContent>
     </Card>
   );
-}1
+}

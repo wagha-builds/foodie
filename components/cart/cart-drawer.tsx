@@ -1,5 +1,7 @@
+"use client";
+
 import { useState } from "react";
-import { Link } from "wouter";
+import Link from "next/link"; // FIXED: Use Next.js Link
 import {
   Sheet,
   SheetContent,
@@ -319,12 +321,18 @@ export function CartDrawer({ open, onOpenChange }: CartDrawerProps) {
         </div>
 
         {/* Checkout Button */}
-        <Link href="/checkout" onClick={() => onOpenChange(false)}>
-          <Button className="w-full mt-4" size="lg" data-testid="button-checkout">
+        <Button 
+          className="w-full mt-4" 
+          size="lg" 
+          data-testid="button-checkout" 
+          asChild 
+          onClick={() => onOpenChange(false)}
+        >
+          <Link href="/checkout">
             Proceed to Checkout
             <ArrowRight className="h-4 w-4 ml-2" />
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </SheetContent>
     </Sheet>
   );

@@ -1,4 +1,6 @@
-import { Link } from "wouter";
+"use client";
+
+import Link from "next/link"; // FIXED: Use Next.js Link
 import { Card } from "@/components/ui/card";
 
 const cuisines = [
@@ -60,9 +62,10 @@ export function CuisineGrid() {
             <Link
               key={cuisine.name}
               href={`/search?cuisine=${encodeURIComponent(cuisine.name)}`}
+              className="block group" // Added class for proper hit area
             >
               <Card
-                className={`group cursor-pointer overflow-hidden hover-elevate transition-all duration-200`}
+                className={`cursor-pointer overflow-hidden hover-elevate transition-all duration-200`}
                 data-testid={`cuisine-card-${cuisine.name.toLowerCase().replace(/\s+/g, "-")}`}
               >
                 <div className="aspect-square relative overflow-hidden">
