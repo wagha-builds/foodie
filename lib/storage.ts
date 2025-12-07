@@ -91,14 +91,14 @@ export class MemStorage implements IStorage {
   }
 
   private seedData() {
-    // === SEED RESTAURANTS ===
+    // Seed demo restaurants
     const restaurants: Restaurant[] = [
       {
         id: "rest-1",
         ownerId: null,
         name: "Tandoori Nights",
         description: "Authentic North Indian cuisine with signature tandoor dishes",
-        cuisines: ["North Indian", "Mughlai", "Biryani"],
+        cuisines: ["North Indian", "Mughlai", "Tandoor"],
         imageUrl: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&q=80",
         coverImageUrl: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&q=80",
         address: "123 Food Street, Koramangala, Bangalore",
@@ -124,7 +124,7 @@ export class MemStorage implements IStorage {
         ownerId: null,
         name: "Pizza Paradise",
         description: "Hand-tossed pizzas with fresh ingredients",
-        cuisines: ["Italian", "Pizza", "Fast Food"],
+        cuisines: ["Italian", "Pizza", "Pasta"],
         imageUrl: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80",
         coverImageUrl: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=1200&q=80",
         address: "45 Gourmet Lane, Indiranagar, Bangalore",
@@ -143,7 +143,7 @@ export class MemStorage implements IStorage {
         openingTime: "10:00",
         closingTime: "24:00",
         hasOffers: true,
-        offerText: "Free delivery",
+        offerText: "Free delivery on orders above 500",
       },
       {
         id: "rest-3",
@@ -195,14 +195,14 @@ export class MemStorage implements IStorage {
         openingTime: "08:00",
         closingTime: "21:00",
         hasOffers: true,
-        offerText: "20% OFF",
+        offerText: "20% OFF on first order",
       },
       {
         id: "rest-5",
         ownerId: null,
         name: "Burger Barn",
         description: "Juicy burgers and crispy fries",
-        cuisines: ["Burgers", "American", "Fast Food"],
+        cuisines: ["American", "Burgers", "Fast Food"],
         imageUrl: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80",
         coverImageUrl: "https://images.unsplash.com/photo-1550547660-d9450f859349?w=1200&q=80",
         address: "56 Burger Street, Marathahalli, Bangalore",
@@ -249,169 +249,658 @@ export class MemStorage implements IStorage {
         hasOffers: false,
         offerText: null,
       },
-      {
-        id: "rest-7",
-        ownerId: null,
-        name: "Royal Biryani House",
-        description: "The finest Hyderabadi and Lucknowi Biryanis",
-        cuisines: ["Biryani", "Mughlai", "North Indian"],
-        imageUrl: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600&q=80",
-        coverImageUrl: "https://images.unsplash.com/photo-1633945274405-b6c8069047b0?w=1200&q=80",
-        address: "88 Mosque Road, Frazer Town, Bangalore",
-        latitude: "12.9969",
-        longitude: "77.6135",
-        phone: "+91 9876543216",
-        email: "royalbiryani@foodie.com",
-        rating: "4.7",
-        reviewCount: 890,
-        priceRange: 2,
-        deliveryTime: 45,
-        deliveryFee: "25",
-        minOrderAmount: "250",
-        isVeg: false,
-        isOpen: true,
-        openingTime: "11:00",
-        closingTime: "23:30",
-        hasOffers: true,
-        offerText: "Flat 100 OFF",
-      },
-      {
-        id: "rest-8",
-        ownerId: null,
-        name: "Sweet Cravings",
-        description: "Desserts, Ice Creams and Shakes",
-        cuisines: ["Desserts", "Ice Cream", "Beverages"],
-        imageUrl: "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=600&q=80",
-        coverImageUrl: "https://images.unsplash.com/photo-1551024601-562963526310?w=1200&q=80",
-        address: "21 Sugar Lane, MG Road, Bangalore",
-        latitude: "12.9749",
-        longitude: "77.6083",
-        phone: "+91 9876543217",
-        email: "sweets@foodie.com",
-        rating: "4.8",
-        reviewCount: 412,
-        priceRange: 2,
-        deliveryTime: 20,
-        deliveryFee: "10",
-        minOrderAmount: "100",
-        isVeg: true,
-        isOpen: true,
-        openingTime: "10:00",
-        closingTime: "00:00",
-        hasOffers: true,
-        offerText: "Free Choco Chip with Order > 200",
-      }
     ];
 
     restaurants.forEach((r) => this.restaurants.set(r.id, r));
 
-    // === SEED MENU CATEGORIES ===
+    // Seed menu categories
     const categories: MenuCategory[] = [
       // Tandoori Nights
-      { id: "cat-1", restaurantId: "rest-1", name: "Starters", description: "Appetizers", sortOrder: 1 },
-      { id: "cat-2", restaurantId: "rest-1", name: "Main Course", description: "Curries", sortOrder: 2 },
-      { id: "cat-3", restaurantId: "rest-1", name: "Breads", description: "Indian Breads", sortOrder: 3 },
+      { id: "cat-1", restaurantId: "rest-1", name: "Starters", description: "Appetizers and snacks", sortOrder: 1 },
+      { id: "cat-2", restaurantId: "rest-1", name: "Main Course", description: "Rice and curries", sortOrder: 2 },
+      { id: "cat-3", restaurantId: "rest-1", name: "Breads", description: "Naan and rotis", sortOrder: 3 },
       // Pizza Paradise
-      { id: "cat-5", restaurantId: "rest-2", name: "Pizzas", description: "Hand-tossed", sortOrder: 1 },
-      { id: "cat-6", restaurantId: "rest-2", name: "Sides", description: "Garlic Breads", sortOrder: 2 },
+      { id: "cat-5", restaurantId: "rest-2", name: "Pizzas", description: "Hand-tossed pizzas", sortOrder: 1 },
+      { id: "cat-6", restaurantId: "rest-2", name: "Pastas", description: "Italian pasta dishes", sortOrder: 2 },
       // Dragon Wok
-      { id: "cat-8", restaurantId: "rest-3", name: "Noodles & Rice", description: "Wok Specials", sortOrder: 1 },
-      { id: "cat-9", restaurantId: "rest-3", name: "Starters", description: "Dimsums", sortOrder: 2 },
+      { id: "cat-8", restaurantId: "rest-3", name: "Noodles", description: "Hakka and Schezwan", sortOrder: 1 },
+      { id: "cat-9", restaurantId: "rest-3", name: "Starters", description: "Dim sums and rolls", sortOrder: 2 },
       // Green Bowl
-      { id: "cat-10", restaurantId: "rest-4", name: "Salads", description: "Fresh Greens", sortOrder: 1 },
-      { id: "cat-11", restaurantId: "rest-4", name: "Smoothies", description: "Healthy Drinks", sortOrder: 2 },
+      { id: "cat-10", restaurantId: "rest-4", name: "Salads", description: "Fresh and crunchy", sortOrder: 1 },
+      { id: "cat-11", restaurantId: "rest-4", name: "Smoothie Bowls", description: "Fruit packed goodness", sortOrder: 2 },
       // Burger Barn
-      { id: "cat-12", restaurantId: "rest-5", name: "Burgers", description: "Juicy Patties", sortOrder: 1 },
-      { id: "cat-13", restaurantId: "rest-5", name: "Sides", description: "Fries & More", sortOrder: 2 },
+      { id: "cat-12", restaurantId: "rest-5", name: "Burgers", description: "Juicy patties", sortOrder: 1 },
+      { id: "cat-13", restaurantId: "rest-5", name: "Sides", description: "Fries and nuggets", sortOrder: 2 },
       // Dosa Plaza
-      { id: "cat-14", restaurantId: "rest-6", name: "Dosas", description: "Crispy Crepes", sortOrder: 1 },
-      { id: "cat-15", restaurantId: "rest-6", name: "Idlis", description: "Steamed Cakes", sortOrder: 2 },
-      // Royal Biryani House
-      { id: "cat-16", restaurantId: "rest-7", name: "Biryanis", description: "Dum Cooked", sortOrder: 1 },
-      { id: "cat-17", restaurantId: "rest-7", name: "Kebabs", description: "Tandoor Starters", sortOrder: 2 },
-      // Sweet Cravings
-      { id: "cat-18", restaurantId: "rest-8", name: "Cakes", description: "Pastries", sortOrder: 1 },
-      { id: "cat-19", restaurantId: "rest-8", name: "Ice Creams", description: "Scoops", sortOrder: 2 },
+      { id: "cat-14", restaurantId: "rest-6", name: "Dosas", description: "Crispy crepes", sortOrder: 1 },
+      { id: "cat-15", restaurantId: "rest-6", name: "Idlis", description: "Steamed rice cakes", sortOrder: 2 },
     ];
 
     categories.forEach((c) => this.menuCategories.set(c.id, c));
 
-    // === SEED DISHES ===
+    // Seed dishes - EXTENDED LIST FOR ALL RESTAURANTS
     const dishes: Dish[] = [
-      // Tandoori Nights
-      { id: "d1", restaurantId: "rest-1", categoryId: "cat-1", name: "Paneer Tikka", description: "Grilled cottage cheese", imageUrl: "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=400&q=80", price: "249", isVeg: true, isAvailable: true, rating: "4.5", reviewCount: 120, isBestseller: true, isNew: false, isChefSpecial: false, isHealthy: false, spiceLevel: 2, portionSize: "Regular", preparationTime: 20, customizations: null },
-      { id: "d2", restaurantId: "rest-1", categoryId: "cat-2", name: "Butter Chicken", description: "Rich tomato gravy", imageUrl: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&q=80", price: "349", isVeg: false, isAvailable: true, rating: "4.8", reviewCount: 300, isBestseller: true, isNew: false, isChefSpecial: true, isHealthy: false, spiceLevel: 2, portionSize: "Regular", preparationTime: 25, customizations: null },
-      
-      // Pizza Paradise
-      { id: "d3", restaurantId: "rest-2", categoryId: "cat-5", name: "Margherita", description: "Classic cheese pizza", imageUrl: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&q=80", price: "299", isVeg: true, isAvailable: true, rating: "4.4", reviewCount: 150, isBestseller: true, isNew: false, isChefSpecial: false, isHealthy: false, spiceLevel: 0, portionSize: "Medium", preparationTime: 20, customizations: null },
-      { id: "d4", restaurantId: "rest-2", categoryId: "cat-5", name: "Pepperoni", description: "Spicy pepperoni", imageUrl: "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=400&q=80", price: "399", isVeg: false, isAvailable: true, rating: "4.6", reviewCount: 200, isBestseller: true, isNew: false, isChefSpecial: false, isHealthy: false, spiceLevel: 2, portionSize: "Medium", preparationTime: 20, customizations: null },
+      // --- Tandoori Nights ---
+      {
+        id: "dish-1",
+        restaurantId: "rest-1",
+        categoryId: "cat-1",
+        name: "Paneer Tikka",
+        description: "Marinated cottage cheese grilled to perfection in tandoor",
+        imageUrl: "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=400&q=80",
+        price: "249",
+        isVeg: true,
+        isAvailable: true,
+        rating: "4.6",
+        reviewCount: 89,
+        isBestseller: true,
+        isNew: false,
+        isChefSpecial: false,
+        isHealthy: false,
+        spiceLevel: 2,
+        portionSize: "Regular",
+        preparationTime: 20,
+        customizations: [{ name: "Spice Level", required: true, maxSelections: 1, options: [{ name: "Mild", price: 0 }, { name: "Medium", price: 0 }, { name: "Spicy", price: 0 }] }],
+      },
+      {
+        id: "dish-2",
+        restaurantId: "rest-1",
+        categoryId: "cat-1",
+        name: "Chicken Malai Tikka",
+        description: "Creamy, tender chicken chunks marinated in cheese and cream",
+        imageUrl: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400&q=80",
+        price: "329",
+        isVeg: false,
+        isAvailable: true,
+        rating: "4.8",
+        reviewCount: 156,
+        isBestseller: true,
+        isNew: false,
+        isChefSpecial: true,
+        isHealthy: false,
+        spiceLevel: 1,
+        portionSize: "Regular",
+        preparationTime: 25,
+        customizations: null,
+      },
+      {
+        id: "dish-3",
+        restaurantId: "rest-1",
+        categoryId: "cat-2",
+        name: "Butter Chicken",
+        description: "Classic creamy tomato-based curry with tender chicken",
+        imageUrl: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&q=80",
+        price: "349",
+        isVeg: false,
+        isAvailable: true,
+        rating: "4.7",
+        reviewCount: 234,
+        isBestseller: true,
+        isNew: false,
+        isChefSpecial: false,
+        isHealthy: false,
+        spiceLevel: 2,
+        portionSize: "Regular",
+        preparationTime: 20,
+        customizations: null,
+      },
+      {
+        id: "dish-5",
+        restaurantId: "rest-1",
+        categoryId: "cat-3",
+        name: "Butter Naan",
+        description: "Soft leavened bread brushed with butter",
+        imageUrl: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=80",
+        price: "59",
+        isVeg: true,
+        isAvailable: true,
+        rating: "4.4",
+        reviewCount: 312,
+        isBestseller: false,
+        isNew: false,
+        isChefSpecial: false,
+        isHealthy: false,
+        spiceLevel: 0,
+        portionSize: "1 piece",
+        preparationTime: 10,
+        customizations: null,
+      },
 
-      // Dragon Wok
-      { id: "d5", restaurantId: "rest-3", categoryId: "cat-8", name: "Hakka Noodles", description: "Veg noodles", imageUrl: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=400&q=80", price: "199", isVeg: true, isAvailable: true, rating: "4.3", reviewCount: 90, isBestseller: true, isNew: false, isChefSpecial: false, isHealthy: false, spiceLevel: 1, portionSize: "Regular", preparationTime: 15, customizations: null },
+      // --- Pizza Paradise ---
+      {
+        id: "dish-6",
+        restaurantId: "rest-2",
+        categoryId: "cat-5",
+        name: "Margherita Pizza",
+        description: "Classic pizza with fresh mozzarella and basil",
+        imageUrl: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&q=80",
+        price: "299",
+        isVeg: true,
+        isAvailable: true,
+        rating: "4.3",
+        reviewCount: 198,
+        isBestseller: true,
+        isNew: false,
+        isChefSpecial: false,
+        isHealthy: false,
+        spiceLevel: 0,
+        portionSize: "Medium",
+        preparationTime: 20,
+        customizations: [{ name: "Size", required: true, maxSelections: 1, options: [{ name: "Medium", price: 0 }, { name: "Large", price: 100 }] }],
+      },
+      {
+        id: "dish-7",
+        restaurantId: "rest-2",
+        categoryId: "cat-5",
+        name: "Pepperoni Pizza",
+        description: "Loaded with spicy pepperoni and cheese",
+        imageUrl: "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=400&q=80",
+        price: "399",
+        isVeg: false,
+        isAvailable: true,
+        rating: "4.5",
+        reviewCount: 267,
+        isBestseller: true,
+        isNew: false,
+        isChefSpecial: false,
+        isHealthy: false,
+        spiceLevel: 2,
+        portionSize: "Medium",
+        preparationTime: 20,
+        customizations: null,
+      },
+      {
+        id: "dish-8",
+        restaurantId: "rest-2",
+        categoryId: "cat-6",
+        name: "White Sauce Pasta",
+        description: "Creamy alfredo pasta with mushrooms",
+        imageUrl: "https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?w=400&q=80",
+        price: "249",
+        isVeg: true,
+        isAvailable: true,
+        rating: "4.2",
+        reviewCount: 112,
+        isBestseller: false,
+        isNew: false,
+        isChefSpecial: false,
+        isHealthy: false,
+        spiceLevel: 1,
+        portionSize: "Regular",
+        preparationTime: 15,
+        customizations: null,
+      },
 
-      // Green Bowl
-      { id: "d6", restaurantId: "rest-4", categoryId: "cat-10", name: "Greek Salad", description: "Fresh veggies & feta", imageUrl: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80", price: "279", isVeg: true, isAvailable: true, rating: "4.7", reviewCount: 60, isBestseller: true, isNew: false, isChefSpecial: false, isHealthy: true, spiceLevel: 0, portionSize: "Regular", preparationTime: 10, customizations: null },
+      // --- Dragon Wok ---
+      {
+        id: "dish-9",
+        restaurantId: "rest-3",
+        categoryId: "cat-8",
+        name: "Veg Hakka Noodles",
+        description: "Wok-tossed noodles with crunchy vegetables",
+        imageUrl: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=400&q=80",
+        price: "189",
+        isVeg: true,
+        isAvailable: true,
+        rating: "4.4",
+        reviewCount: 220,
+        isBestseller: true,
+        isNew: false,
+        isChefSpecial: false,
+        isHealthy: false,
+        spiceLevel: 1,
+        portionSize: "Regular",
+        preparationTime: 15,
+        customizations: null,
+      },
+      {
+        id: "dish-10",
+        restaurantId: "rest-3",
+        categoryId: "cat-9",
+        name: "Chicken Momos",
+        description: "Steamed dumplings filled with minced chicken",
+        imageUrl: "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?w=400&q=80",
+        price: "149",
+        isVeg: false,
+        isAvailable: true,
+        rating: "4.6",
+        reviewCount: 340,
+        isBestseller: true,
+        isNew: false,
+        isChefSpecial: true,
+        isHealthy: false,
+        spiceLevel: 2,
+        portionSize: "6 pieces",
+        preparationTime: 20,
+        customizations: null,
+      },
 
-      // Burger Barn
-      { id: "d7", restaurantId: "rest-5", categoryId: "cat-12", name: "Chicken Burger", description: "Crispy patty", imageUrl: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80", price: "189", isVeg: false, isAvailable: true, rating: "4.2", reviewCount: 110, isBestseller: true, isNew: false, isChefSpecial: false, isHealthy: false, spiceLevel: 1, portionSize: "Regular", preparationTime: 15, customizations: null },
+      // --- Green Bowl ---
+      {
+        id: "dish-11",
+        restaurantId: "rest-4",
+        categoryId: "cat-10",
+        name: "Greek Salad",
+        description: "Fresh cucumber, cherry tomatoes, olives and feta cheese",
+        imageUrl: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80",
+        price: "279",
+        isVeg: true,
+        isAvailable: true,
+        rating: "4.7",
+        reviewCount: 95,
+        isBestseller: true,
+        isNew: false,
+        isChefSpecial: false,
+        isHealthy: true,
+        spiceLevel: 0,
+        portionSize: "Bowl",
+        preparationTime: 10,
+        customizations: null,
+      },
+      {
+        id: "dish-12",
+        restaurantId: "rest-4",
+        categoryId: "cat-11",
+        name: "Berry Smoothie Bowl",
+        description: "Mixed berries blended with yogurt and topped with granola",
+        imageUrl: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=80",
+        price: "299",
+        isVeg: true,
+        isAvailable: true,
+        rating: "4.8",
+        reviewCount: 120,
+        isBestseller: false,
+        isNew: true,
+        isChefSpecial: false,
+        isHealthy: true,
+        spiceLevel: 0,
+        portionSize: "Bowl",
+        preparationTime: 10,
+        customizations: null,
+      },
 
-      // Dosa Plaza
-      { id: "d8", restaurantId: "rest-6", categoryId: "cat-14", name: "Masala Dosa", description: "Potato filling", imageUrl: "https://images.unsplash.com/photo-1589301760557-878121f88599?w=400&q=80", price: "120", isVeg: true, isAvailable: true, rating: "4.6", reviewCount: 220, isBestseller: true, isNew: false, isChefSpecial: false, isHealthy: true, spiceLevel: 1, portionSize: "Regular", preparationTime: 15, customizations: null },
-      { id: "d9", restaurantId: "rest-6", categoryId: "cat-15", name: "Idli Sambar", description: "Steamed rice cakes", imageUrl: "https://images.unsplash.com/photo-1589301760557-878121f88599?w=400&q=80", price: "80", isVeg: true, isAvailable: true, rating: "4.5", reviewCount: 180, isBestseller: false, isNew: false, isChefSpecial: false, isHealthy: true, spiceLevel: 1, portionSize: "2 pcs", preparationTime: 10, customizations: null },
+      // --- Burger Barn ---
+      {
+        id: "dish-13",
+        restaurantId: "rest-5",
+        categoryId: "cat-12",
+        name: "Classic Chicken Burger",
+        description: "Grilled chicken patty with lettuce, tomato and mayo",
+        imageUrl: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80",
+        price: "199",
+        isVeg: false,
+        isAvailable: true,
+        rating: "4.3",
+        reviewCount: 400,
+        isBestseller: true,
+        isNew: false,
+        isChefSpecial: false,
+        isHealthy: false,
+        spiceLevel: 1,
+        portionSize: "Regular",
+        preparationTime: 15,
+        customizations: null,
+      },
+      {
+        id: "dish-14",
+        restaurantId: "rest-5",
+        categoryId: "cat-13",
+        name: "Peri Peri Fries",
+        description: "Crispy french fries tossed in spicy peri peri seasoning",
+        imageUrl: "https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?w=400&q=80",
+        price: "129",
+        isVeg: true,
+        isAvailable: true,
+        rating: "4.5",
+        reviewCount: 280,
+        isBestseller: false,
+        isNew: false,
+        isChefSpecial: false,
+        isHealthy: false,
+        spiceLevel: 2,
+        portionSize: "Regular",
+        preparationTime: 10,
+        customizations: null,
+      },
 
-      // Royal Biryani House
-      { id: "d10", restaurantId: "rest-7", categoryId: "cat-16", name: "Chicken Biryani", description: "Hyderabadi dum style", imageUrl: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&q=80", price: "299", isVeg: false, isAvailable: true, rating: "4.8", reviewCount: 500, isBestseller: true, isNew: false, isChefSpecial: true, isHealthy: false, spiceLevel: 3, portionSize: "Serves 1", preparationTime: 30, customizations: null },
-      { id: "d11", restaurantId: "rest-7", categoryId: "cat-16", name: "Mutton Biryani", description: "Tender meat & aroma", imageUrl: "https://images.unsplash.com/photo-1633945274405-b6c8069047b0?w=400&q=80", price: "399", isVeg: false, isAvailable: true, rating: "4.9", reviewCount: 300, isBestseller: true, isNew: false, isChefSpecial: true, isHealthy: false, spiceLevel: 3, portionSize: "Serves 1", preparationTime: 30, customizations: null },
-
-      // Sweet Cravings
-      { id: "d12", restaurantId: "rest-8", categoryId: "cat-18", name: "Chocolate Cake", description: "Rich truffle layer", imageUrl: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&q=80", price: "150", isVeg: true, isAvailable: true, rating: "4.7", reviewCount: 150, isBestseller: true, isNew: false, isChefSpecial: false, isHealthy: false, spiceLevel: 0, portionSize: "1 slice", preparationTime: 0, customizations: null },
-      { id: "d13", restaurantId: "rest-8", categoryId: "cat-19", name: "Vanilla Scoop", description: "Classic vanilla", imageUrl: "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=400&q=80", price: "80", isVeg: true, isAvailable: true, rating: "4.5", reviewCount: 100, isBestseller: false, isNew: false, isChefSpecial: false, isHealthy: false, spiceLevel: 0, portionSize: "1 scoop", preparationTime: 0, customizations: null },
+      // --- Dosa Plaza ---
+      {
+        id: "dish-15",
+        restaurantId: "rest-6",
+        categoryId: "cat-14",
+        name: "Masala Dosa",
+        description: "Crispy rice crepe filled with spiced potato mash",
+        imageUrl: "https://images.unsplash.com/photo-1589301760557-878121f88599?w=400&q=80",
+        price: "99",
+        isVeg: true,
+        isAvailable: true,
+        rating: "4.6",
+        reviewCount: 550,
+        isBestseller: true,
+        isNew: false,
+        isChefSpecial: false,
+        isHealthy: true,
+        spiceLevel: 1,
+        portionSize: "1 piece",
+        preparationTime: 15,
+        customizations: null,
+      },
+      {
+        id: "dish-16",
+        restaurantId: "rest-6",
+        categoryId: "cat-15",
+        name: "Idli Sambar",
+        description: "Soft steamed rice cakes served with lentil soup",
+        imageUrl: "https://images.unsplash.com/photo-1589301760557-878121f88599?w=400&q=80",
+        price: "79",
+        isVeg: true,
+        isAvailable: true,
+        rating: "4.5",
+        reviewCount: 300,
+        isBestseller: false,
+        isNew: false,
+        isChefSpecial: false,
+        isHealthy: true,
+        spiceLevel: 1,
+        portionSize: "2 pieces",
+        preparationTime: 10,
+        customizations: null,
+      },
     ];
 
     dishes.forEach((d) => this.dishes.set(d.id, d));
 
     // Seed coupons
     const coupons: Coupon[] = [
-      { id: "c1", code: "FIRST50", description: "50% off", discountType: "percentage", discountValue: "50", minOrderAmount: "100", maxDiscount: "100", restaurantId: null, usageLimit: 1000, usedCount: 10, validFrom: new Date(), validUntil: new Date("2025-12-31"), isActive: true },
-      { id: "c2", code: "FLAT100", description: "Flat 100 off", discountType: "flat", discountValue: "100", minOrderAmount: "300", maxDiscount: null, restaurantId: null, usageLimit: 500, usedCount: 20, validFrom: new Date(), validUntil: new Date("2025-12-31"), isActive: true },
+      {
+        id: "coupon-1",
+        code: "FIRST50",
+        description: "50% off on first order",
+        discountType: "percentage",
+        discountValue: "50",
+        minOrderAmount: "100",
+        maxDiscount: "100",
+        restaurantId: null,
+        usageLimit: 1000,
+        usedCount: 456,
+        validFrom: new Date("2024-01-01"),
+        validUntil: new Date("2025-12-31"),
+        isActive: true,
+      },
+      {
+        id: "coupon-2",
+        code: "FLAT100",
+        description: "Flat 100 off",
+        discountType: "flat",
+        discountValue: "100",
+        minOrderAmount: "300",
+        maxDiscount: null,
+        restaurantId: null,
+        usageLimit: 500,
+        usedCount: 123,
+        validFrom: new Date("2024-01-01"),
+        validUntil: new Date("2025-12-31"),
+        isActive: true,
+      },
     ];
+
     coupons.forEach((c) => this.coupons.set(c.code.toUpperCase(), c));
   }
 
-  // --- DATA ACCESS METHODS ---
-  async getUser(id: string) { return this.users.get(id); }
-  async getUserByEmail(email: string) { return Array.from(this.users.values()).find((u) => u.email === email); }
-  async getUserByFirebaseUid(uid: string) { return Array.from(this.users.values()).find((u) => u.firebaseUid === uid); }
-  async createUser(user: InsertUser) { const id = randomUUID(); const newUser = { ...user, id, phone: user.phone ?? null, role: user.role ?? "customer", avatarUrl: user.avatarUrl ?? null, firebaseUid: user.firebaseUid ?? null }; this.users.set(id, newUser); return newUser; }
-  async updateUser(id: string, data: Partial<User>) { const user = this.users.get(id); if (!user) return undefined; const updated = { ...user, ...data }; this.users.set(id, updated); return updated; }
-  async getRestaurants() { return Array.from(this.restaurants.values()); }
-  async getRestaurant(id: string) { return this.restaurants.get(id); }
-  async getRestaurantByOwner(ownerId: string) { return Array.from(this.restaurants.values()).find((r) => r.ownerId === ownerId); }
-  async createRestaurant(restaurant: InsertRestaurant) { const id = randomUUID(); const newRest = { ...restaurant, id } as Restaurant; this.restaurants.set(id, newRest); return newRest; }
-  async updateRestaurant(id: string, data: Partial<Restaurant>) { const r = this.restaurants.get(id); if (!r) return undefined; const updated = { ...r, ...data }; this.restaurants.set(id, updated); return updated; }
-  async getMenuCategories(restaurantId: string) { return Array.from(this.menuCategories.values()).filter((c) => c.restaurantId === restaurantId).sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0)); }
-  async createMenuCategory(category: InsertMenuCategory) { const id = randomUUID(); const newCat = { ...category, id } as MenuCategory; this.menuCategories.set(id, newCat); return newCat; }
-  async getDishes(restaurantId: string) { return Array.from(this.dishes.values()).filter((d) => d.restaurantId === restaurantId); }
-  async getDish(id: string) { return this.dishes.get(id); }
-  async createDish(dish: InsertDish) { const id = randomUUID(); const newDish = { ...dish, id } as Dish; this.dishes.set(id, newDish); return newDish; }
-  async updateDish(id: string, data: Partial<Dish>) { const d = this.dishes.get(id); if (!d) return undefined; const updated = { ...d, ...data }; this.dishes.set(id, updated); return updated; }
-  async getOrders(userId: string) { return Array.from(this.orders.values()).filter((o) => o.userId === userId).sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()); }
-  async getOrder(id: string) { return this.orders.get(id); }
-  async getOrdersByRestaurant(restaurantId: string) { return Array.from(this.orders.values()).filter((o) => o.restaurantId === restaurantId).sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()); }
-  async getAvailableOrdersForDelivery() { return Array.from(this.orders.values()).filter((o) => o.status === "ready" && !o.deliveryPartnerId); }
-  async createOrder(order: InsertOrder) { const id = randomUUID(); const newOrder = { ...order, id, createdAt: new Date() } as Order; this.orders.set(id, newOrder); return newOrder; }
-  async updateOrder(id: string, data: Partial<Order>) { const o = this.orders.get(id); if (!o) return undefined; const updated = { ...o, ...data }; if (data.status) { if (data.status === 'accepted') updated.acceptedAt = new Date(); if (data.status === 'preparing') updated.preparingAt = new Date(); if (data.status === 'ready') updated.readyAt = new Date(); if (data.status === 'picked_up') updated.pickedUpAt = new Date(); if (data.status === 'delivered') updated.deliveredAt = new Date(); } this.orders.set(id, updated); return updated; }
-  async getAddresses(userId: string) { return Array.from(this.addresses.values()).filter((a) => a.userId === userId); }
-  async getAddress(id: string) { return this.addresses.get(id); }
-  async createAddress(address: InsertAddress) { const id = randomUUID(); const newAddr = { ...address, id } as Address; this.addresses.set(id, newAddr); return newAddr; }
-  async deleteAddress(id: string) { this.addresses.delete(id); }
-  async getDeliveryPartner(userId: string) { return Array.from(this.deliveryPartners.values()).find((p) => p.userId === userId); }
-  async createDeliveryPartner(partner: InsertDeliveryPartner) { const id = randomUUID(); const newP = { ...partner, id } as DeliveryPartner; this.deliveryPartners.set(id, newP); return newP; }
-  async updateDeliveryPartner(userId: string, data: Partial<DeliveryPartner>) { const p = await this.getDeliveryPartner(userId); if (!p) return undefined; const updated = { ...p, ...data }; this.deliveryPartners.set(p.id, updated); return updated; }
-  async getCoupon(code: string) { return this.coupons.get(code.toUpperCase()); }
-  async validateCoupon(code: string, amount: number, restaurantId?: string) { const c = await this.getCoupon(code); if (!c || !c.isActive) return null; if (c.minOrderAmount && amount < Number(c.minOrderAmount)) return null; if (c.restaurantId && c.restaurantId !== restaurantId) return null; if (c.usageLimit && c.usedCount && c.usedCount >= c.usageLimit) return null; if (c.validUntil && new Date() > new Date(c.validUntil)) return null; return c; }
-  async createDishReview(review: InsertDishReview) { const id = randomUUID(); const newReview = { ...review, id, createdAt: new Date() } as DishReview; this.dishReviews.set(id, newReview); return newReview; }
-  async getDishReviews(dishId: string) { return Array.from(this.dishReviews.values()).filter((r) => r.dishId === dishId).sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()); }
+  // ... [Rest of the methods getUser, getRestaurants, etc. remain exactly the same] ...
+  // Users
+  async getUser(id: string): Promise<User | undefined> {
+    return this.users.get(id);
+  }
+
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    return Array.from(this.users.values()).find((u) => u.email === email);
+  }
+
+  async getUserByFirebaseUid(uid: string): Promise<User | undefined> {
+    return Array.from(this.users.values()).find((u) => u.firebaseUid === uid);
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const id = randomUUID();
+    const user: User = {
+      id,
+      name: insertUser.name,
+      email: insertUser.email,
+      phone: insertUser.phone ?? null,
+      role: insertUser.role ?? "customer",
+      avatarUrl: insertUser.avatarUrl ?? null,
+      firebaseUid: insertUser.firebaseUid ?? null,
+    };
+    this.users.set(id, user);
+    return user;
+  }
+  async updateUser(id: string, data: Partial<User>): Promise<User | undefined> {
+    const user = this.users.get(id);
+    if (!user) return undefined;
+    const updated = { ...user, ...data };
+    this.users.set(id, updated);
+    return updated;
+  }
+
+  // Restaurants
+  async getRestaurants(): Promise<Restaurant[]> {
+    return Array.from(this.restaurants.values());
+  }
+
+  async getRestaurant(id: string): Promise<Restaurant | undefined> {
+    return this.restaurants.get(id);
+  }
+
+  async getRestaurantByOwner(ownerId: string): Promise<Restaurant | undefined> {
+    return Array.from(this.restaurants.values()).find((r) => r.ownerId === ownerId);
+  }
+
+  async createRestaurant(restaurant: InsertRestaurant): Promise<Restaurant> {
+    const id = randomUUID();
+    const newRestaurant: Restaurant = { ...restaurant, id } as Restaurant;
+    this.restaurants.set(id, newRestaurant);
+    return newRestaurant;
+  }
+
+  async updateRestaurant(id: string, data: Partial<Restaurant>): Promise<Restaurant | undefined> {
+    const restaurant = this.restaurants.get(id);
+    if (!restaurant) return undefined;
+    const updated = { ...restaurant, ...data };
+    this.restaurants.set(id, updated);
+    return updated;
+  }
+
+  // Menu Categories
+  async getMenuCategories(restaurantId: string): Promise<MenuCategory[]> {
+    return Array.from(this.menuCategories.values())
+      .filter((c) => c.restaurantId === restaurantId)
+      .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
+  }
+
+  async createMenuCategory(category: InsertMenuCategory): Promise<MenuCategory> {
+    const id = randomUUID();
+    const newCategory: MenuCategory = { ...category, id } as MenuCategory;
+    this.menuCategories.set(id, newCategory);
+    return newCategory;
+  }
+
+  // Dishes
+  async getDishes(restaurantId: string): Promise<Dish[]> {
+    return Array.from(this.dishes.values()).filter((d) => d.restaurantId === restaurantId);
+  }
+
+  async getDish(id: string): Promise<Dish | undefined> {
+    return this.dishes.get(id);
+  }
+
+  async createDish(dish: InsertDish): Promise<Dish> {
+    const id = randomUUID();
+    const newDish: Dish = { ...dish, id } as Dish;
+    this.dishes.set(id, newDish);
+    return newDish;
+  }
+
+  async updateDish(id: string, data: Partial<Dish>): Promise<Dish | undefined> {
+    const dish = this.dishes.get(id);
+    if (!dish) return undefined;
+    const updated = { ...dish, ...data };
+    this.dishes.set(id, updated);
+    return updated;
+  }
+
+  // Orders
+  async getOrders(userId: string): Promise<Order[]> {
+    return Array.from(this.orders.values())
+      .filter((o) => o.userId === userId)
+      .sort((a, b) => {
+        const dateA = new Date(a.createdAt || 0).getTime();
+        const dateB = new Date(b.createdAt || 0).getTime();
+        return dateB - dateA;
+      });
+  }
+
+  async getOrder(id: string): Promise<Order | undefined> {
+    return this.orders.get(id);
+  }
+
+  async getOrdersByRestaurant(restaurantId: string): Promise<Order[]> {
+    return Array.from(this.orders.values())
+      .filter((o) => o.restaurantId === restaurantId)
+      .sort((a, b) => {
+        const dateA = new Date(a.createdAt || 0).getTime();
+        const dateB = new Date(b.createdAt || 0).getTime();
+        return dateB - dateA;
+      });
+  }
+
+  async getAvailableOrdersForDelivery(): Promise<Order[]> {
+    return Array.from(this.orders.values()).filter(
+      (o) => o.status === "ready" && !o.deliveryPartnerId
+    );
+  }
+
+  async createOrder(order: InsertOrder): Promise<Order> {
+    const id = randomUUID();
+    const newOrder: Order = {
+      ...order,
+      id,
+      createdAt: new Date(),
+    } as Order;
+    this.orders.set(id, newOrder);
+    return newOrder;
+  }
+
+  async updateOrder(id: string, data: Partial<Order>): Promise<Order | undefined> {
+    const order = this.orders.get(id);
+    if (!order) return undefined;
+    
+    const updated: Order = { ...order, ...data };
+    if (data.status === "accepted" && !order.acceptedAt) {
+      updated.acceptedAt = new Date();
+    }
+    if (data.status === "preparing" && !order.preparingAt) {
+      updated.preparingAt = new Date();
+    }
+    if (data.status === "ready" && !order.readyAt) {
+      updated.readyAt = new Date();
+    }
+    if (data.status === "picked_up" && !order.pickedUpAt) {
+      updated.pickedUpAt = new Date();
+    }
+    if (data.status === "delivered" && !order.deliveredAt) {
+      updated.deliveredAt = new Date();
+    }
+    
+    this.orders.set(id, updated);
+    return updated;
+  }
+
+  // Addresses
+  async getAddresses(userId: string): Promise<Address[]> {
+    return Array.from(this.addresses.values()).filter((a) => a.userId === userId);
+  }
+
+  async getAddress(id: string): Promise<Address | undefined> {
+    return this.addresses.get(id);
+  }
+
+  async createAddress(address: InsertAddress): Promise<Address> {
+    const id = randomUUID();
+    const newAddress: Address = { ...address, id } as Address;
+    this.addresses.set(id, newAddress);
+    return newAddress;
+  }
+
+  async deleteAddress(id: string): Promise<void> {
+    this.addresses.delete(id);
+  }
+
+  // Delivery Partners
+  async getDeliveryPartner(userId: string): Promise<DeliveryPartner | undefined> {
+    return Array.from(this.deliveryPartners.values()).find((p) => p.userId === userId);
+  }
+
+  async createDeliveryPartner(partner: InsertDeliveryPartner): Promise<DeliveryPartner> {
+    const id = randomUUID();
+    const newPartner: DeliveryPartner = { ...partner, id } as DeliveryPartner;
+    this.deliveryPartners.set(id, newPartner);
+    return newPartner;
+  }
+
+  async updateDeliveryPartner(
+    userId: string,
+    data: Partial<DeliveryPartner>
+  ): Promise<DeliveryPartner | undefined> {
+    const partner = await this.getDeliveryPartner(userId);
+    if (!partner) return undefined;
+    const updated = { ...partner, ...data };
+    this.deliveryPartners.set(partner.id, updated);
+    return updated;
+  }
+
+  // Coupons
+  async getCoupon(code: string): Promise<Coupon | undefined> {
+    return this.coupons.get(code.toUpperCase());
+  }
+
+  async validateCoupon(
+    code: string,
+    orderAmount: number,
+    restaurantId?: string
+  ): Promise<Coupon | null> {
+    const coupon = await this.getCoupon(code);
+    if (!coupon) return null;
+    if (!coupon.isActive) return null;
+    if (coupon.minOrderAmount && orderAmount < Number(coupon.minOrderAmount)) return null;
+    if (coupon.restaurantId && coupon.restaurantId !== restaurantId) return null;
+    if (coupon.usageLimit && coupon.usedCount && coupon.usedCount >= coupon.usageLimit)
+      return null;
+    if (coupon.validUntil && new Date() > new Date(coupon.validUntil)) return null;
+    return coupon;
+  }
+
+  // Reviews
+  async createDishReview(review: InsertDishReview): Promise<DishReview> {
+    const id = randomUUID();
+    const newReview: DishReview = {
+      ...review,
+      id,
+      createdAt: new Date(),
+    } as DishReview;
+    this.dishReviews.set(id, newReview);
+    return newReview;
+  }
+
+  async getDishReviews(dishId: string): Promise<DishReview[]> {
+    return Array.from(this.dishReviews.values())
+      .filter((r) => r.dishId === dishId)
+      .sort((a, b) => {
+        const dateA = new Date(a.createdAt || 0).getTime();
+        const dateB = new Date(b.createdAt || 0).getTime();
+        return dateB - dateA;
+      });
+  }
 }
 
 const globalForStorage = globalThis as unknown as { storage: MemStorage };
