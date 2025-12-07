@@ -7,14 +7,14 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
-} from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { useCart } from "@/lib/store";
-import { useToast } from "@/hooks/use-toast";
+} from "../../components/ui/sheet";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { Separator } from "../../components/ui/separator";
+import { Badge } from "../../components/ui/badge";
+import { ScrollArea } from "../../components/ui/scroll-area";
+import { useCart } from "../../lib/store";
+import { useToast } from "../../hooks/use-toast";
 import {
   Plus,
   Minus,
@@ -26,7 +26,7 @@ import {
   Clock,
   Percent,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 
 interface CartDrawerProps {
   open: boolean;

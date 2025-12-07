@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google"; // Using Google Fonts built-in
 import "./globals.css";
 import { Providers } from "./providers";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
-import { BottomNav } from "@/components/layout/bottom-nav";
+import { Header } from "../components/layout/header";
+import { Footer } from "../components/layout/footer";
+import { BottomNav } from "../components/layout/bottom-nav";
 
 const fontSans = Open_Sans({ subsets: ["latin"] });
 

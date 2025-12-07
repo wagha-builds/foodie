@@ -2,18 +2,18 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth, useCart } from "@/lib/store";
+import { useAuth, useCart } from "../../lib/store";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { AddressSelector } from "@/components/checkout/address-selector";
-import { PaymentOptions, type PaymentMethod } from "@/components/checkout/payment-options";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { useToast } from "@/hooks/use-toast";
+import { AddressSelector } from "../../components/checkout/address-selector";
+import { PaymentOptions, type PaymentMethod } from "../../components/checkout/payment-options";
+import { Button } from "../../components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import { Separator } from "../../components/ui/separator";
+import { ScrollArea } from "../../components/ui/scroll-area";
+import { useToast } from "../../hooks/use-toast";
 import { ArrowLeft, Loader2, ShieldCheck, MapPin } from "lucide-react";
-import { apiRequest } from "@/lib/queryClient";
-import type { Address } from "@/shared/schema";
+import { apiRequest } from "../../lib/queryClient";
+import type { Address } from "../../shared/schema";
 import Link from "next/link";
 
 export default function CheckoutClient() {

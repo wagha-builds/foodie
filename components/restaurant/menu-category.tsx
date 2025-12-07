@@ -1,6 +1,6 @@
 import type { Dish, Restaurant, MenuCategory as MenuCategoryType } from "../../shared/schema";
 import { DishCard, DishCardSkeleton } from "./dish-card";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "../../components/ui/skeleton";
 
 interface MenuCategoryProps {
   category: MenuCategoryType;

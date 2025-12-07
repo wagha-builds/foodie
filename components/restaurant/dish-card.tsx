@@ -1,24 +1,24 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "../../components/ui/button";
+import { Badge } from "../../components/ui/badge";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Separator } from "@/components/ui/separator";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { useCart, useAuth } from "@/lib/store";
-import { useToast } from "@/hooks/use-toast";
+} from "../../components/ui/dialog";
+import { Checkbox } from "../../components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "../../components/ui/radio-group";
+import { Label } from "../../components/ui/label";
+import { Textarea } from "../../components/ui/textarea";
+import { Separator } from "../../components/ui/separator";
+import { ScrollArea } from "../../components/ui/scroll-area";
+import { useCart, useAuth } from "../../lib/store";
+import { useToast } from "../../hooks/use-toast";
 import type { Dish, Restaurant, SelectedCustomization, DishCustomization } from "../../shared/schema";
 import { Star, Plus, Minus, Flame, Award, Sparkles, Heart } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "../../lib/utils";
+import { Skeleton } from "../../components/ui/skeleton";
 
 interface DishCardProps {
   dish: Dish;

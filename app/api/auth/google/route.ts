@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { storage } from "@/lib/storage";
+import { storage } from "../../../../lib/storage";
 
 export async function POST(request: Request) {
   try {
@@ -17,14 +17,16 @@ export async function POST(request: Request) {
         user = await storage.updateUser(user.id, { firebaseUid });
       } else {
         // Create new user
-        user = await storage.createUser({
-          email,
-          name,
-          avatarUrl,
-          firebaseUid,
-          phone: null,
-          role: "customer",
-        });
+        type User = {
+          id: string;
+          name?: string;
+          email?: string;
+          phone?: string | null;
+          role?: string | null;
+          avatarUrl?: string | null;
+          firebaseUid?: string | null;
+        };
+        
       }
     }
 

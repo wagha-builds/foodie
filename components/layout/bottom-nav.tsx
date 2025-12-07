@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Search, Package, User } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { useAuth } from "@/lib/store";
+import { cn } from "../../lib/utils";
+import { useAuth } from "../../lib/store";
 
 const navItems = [
   { href: "/", icon: Home, label: "Home" },

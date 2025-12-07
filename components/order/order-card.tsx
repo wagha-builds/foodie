@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import { Card, CardContent, CardHeader } from "../../components/ui/card";
+import { Badge } from "../../components/ui/badge";
+import { Button } from "../../components/ui/button";
+import { Separator } from "../../components/ui/separator";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,7 +15,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+} from "../../components/ui/alert-dialog";
 import type { Order } from "../../shared/schema"; //
 import { 
   MapPin, 
@@ -27,7 +27,7 @@ import {
   XCircle
 } from "lucide-react";
 import { SiWhatsapp } from "react-icons/si";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 
 interface OrderCardProps {
   order: Order & {

@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext } from "react";
-import type { User, CartItemWithDetails, Restaurant, Address } from "@/shared/schema";
+import type { User, CartItemWithDetails, Restaurant, Address } from "../shared/schema";
 
 // ==================== CART ====================
 interface CartState {

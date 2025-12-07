@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { storage } from "@/lib/storage";
+import { storage } from "../../../lib/storage";
 import RestaurantClient from "./client";
 
 // SEO: Generate metadata dynamically based on restaurant ID

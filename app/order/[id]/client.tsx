@@ -2,19 +2,19 @@
 
 import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic"; // Import dynamic for lazy loading
-import { OrderTimeline } from "@/components/order/order-timeline";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
+import { OrderTimeline } from "../../../components/order/order-timeline";
+import { Button } from "../../../components/ui/button";
+import { Card } from "../../../components/ui/card";
+import { Skeleton } from "../../../components/ui/skeleton";
 import { ChevronLeft, Phone } from "lucide-react";
 import Link from "next/link";
-import { useAuth } from "@/lib/store";
-import type { Order, OrderItem, OrderStatusType } from "@/shared/schema";
+import { useAuth } from "../../../lib/store";
+import type { Order, OrderItem, OrderStatusType } from "../../../shared/schema";
 
 // 1. Dynamically import DeliveryMap with SSR disabled
 // This prevents 'ReferenceError: location is not defined' during server rendering
 const DeliveryMap = dynamic(
-  () => import("@/components/map/delivery-map").then((mod) => mod.DeliveryMap),
+  () => import("../../../components/map/delivery-map").then((mod) => mod.DeliveryMap),
   { 
     ssr: false,
     loading: () => <div className="w-full h-full bg-muted animate-pulse" />

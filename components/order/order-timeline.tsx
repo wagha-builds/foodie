@@ -1,5 +1,5 @@
 import { Check, Clock, ChefHat, Package, Truck, Home } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 import type { OrderStatusType } from "../../shared/schema";
 
 interface OrderTimelineProps {

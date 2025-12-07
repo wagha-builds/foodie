@@ -3,28 +3,28 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "../../components/ui/button";
+import { Badge } from "../../components/ui/badge";
+import { Input } from "../../components/ui/input";
+import { Label } from "../../components/ui/label";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "../../components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from "../../components/ui/dialog";
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
-} from "@/components/ui/sheet";
+} from "../../components/ui/sheet";
 import {
   ChevronDown,
   Search,
@@ -37,10 +37,10 @@ import {
   Loader2,
 } from "lucide-react";
 
-import { useAuth, useLocation, useCart, useTheme } from "@/lib/store";
-import { CartDrawer } from "@/components/cart/cart-drawer";
-import { AuthDialog } from "@/components/auth/auth-dialog";
-import { cn } from "@/lib/utils";
+import { useAuth, useLocation, useCart, useTheme } from "../../lib/store";
+import { CartDrawer } from "../../components/cart/cart-drawer";
+import { AuthDialog } from "../../components/auth/auth-dialog";
+import { cn } from "../../lib/utils";
 
 export function Header() {
   const pathname = usePathname();

@@ -1,22 +1,22 @@
 import { useState } from "react";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Card } from "../../components/ui/card";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { Label } from "../../components/ui/label";
+import { Textarea } from "../../components/ui/textarea";
+import { RadioGroup, RadioGroupItem } from "../../components/ui/radio-group";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
+} from "../../components/ui/dialog";
+import { Badge } from "../../components/ui/badge";
 import type { Address } from "../../shared/schema";
 import { MapPin, Home, Briefcase, MapPinned, Plus, Check, Loader2 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { useLocation } from "@/lib/store";
+import { cn } from "../../lib/utils";
+import { useLocation } from "../../lib/store";
 
 interface AddressSelectorProps {
   addresses: Address[];

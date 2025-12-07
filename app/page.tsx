@@ -1,14 +1,14 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { HeroSection } from "@/components/home/hero-section";
-import { CuisineGrid } from "@/components/home/cuisine-grid";
-import { RestaurantSection } from "@/components/home/restaurant-section";
-import { FilterChips } from "@/components/restaurant/filter-chips";
-import { RestaurantCard, RestaurantCardSkeleton } from "@/components/restaurant/restaurant-card";
-import { useFilters, useLocation } from "@/lib/store";
-import type { Restaurant } from "@/shared/schema"; // Updated import path
-import { Separator } from "@/components/ui/separator";
+import { HeroSection } from "../components/home/hero-section";
+import { CuisineGrid } from "../components/home/cuisine-grid";
+import { RestaurantSection } from "../components/home/restaurant-section";
+import { FilterChips } from "../components/restaurant/filter-chips";
+import { RestaurantCard, RestaurantCardSkeleton } from "../components/restaurant/restaurant-card";
+import { useFilters, useLocation } from "../lib/store";
+import type { Restaurant } from "../shared/schema"; // Updated import path
+import { Separator } from "../components/ui/separator";
 import { Search } from "lucide-react";
 
 export default function HomePage() {

@@ -3,13 +3,13 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link"; // Changed from wouter
 import { useQuery } from "@tanstack/react-query";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Skeleton } from "@/components/ui/skeleton";
-import { MenuCategorySection, CategorySidebar, MenuCategorySkeleton } from "@/components/restaurant/menu-category";
-import { useCart } from "@/lib/store";
-import type { Restaurant, Dish, MenuCategory } from "@/shared/schema";
+import { Button } from "../../../components/ui/button";
+import { Badge } from "../../../components/ui/badge";
+import { Input } from "../../../components/ui/input";
+import { Skeleton } from "../../../components/ui/skeleton";
+import { MenuCategorySection, CategorySidebar, MenuCategorySkeleton } from "../../../components/restaurant/menu-category";
+import { useCart } from "../../../lib/store";
+import type { Restaurant, Dish, MenuCategory } from "../../../shared/schema";
 import {
   Star,
   Clock,
@@ -24,7 +24,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { SiWhatsapp } from "react-icons/si";
-import { cn } from "@/lib/utils";
+import { cn } from "../../../lib/utils";
 
 export default function RestaurantClient({ id }: { id: string }) {
   const [searchQuery, setSearchQuery] = useState("");

@@ -2,15 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/lib/store";
+import { useAuth } from "../../lib/store";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
-import { OrderCard } from "@/components/order/order-card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "../../lib/queryClient";
+import { OrderCard } from "../../components/order/order-card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs";
+import { Button } from "../../components/ui/button";
+import { useToast } from "../../hooks/use-toast";
 import { ShoppingBag, Loader2 } from "lucide-react";
-import type { Order } from "@/shared/schema"; //
+import type { Order } from "../../shared/schema"; //
 import Link from "next/link";
 
 interface OrderWithDetails extends Order {

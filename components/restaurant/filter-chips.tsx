@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "../../components/ui/button";
+import { Badge } from "../../components/ui/badge";
 import {
   Sheet,
   SheetContent,
@@ -8,14 +8,14 @@ import {
   SheetTitle,
   SheetTrigger,
   SheetFooter,
-} from "@/components/ui/sheet";
-import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
-import { Separator } from "@/components/ui/separator";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { useFilters, defaultFilters, type FilterState } from "@/lib/store";
+} from "../../components/ui/sheet";
+import { Checkbox } from "../../components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "../../components/ui/radio-group";
+import { Label } from "../../components/ui/label";
+import { Slider } from "../../components/ui/slider";
+import { Separator } from "../../components/ui/separator";
+import { ScrollArea } from "../../components/ui/scroll-area";
+import { useFilters, defaultFilters, type FilterState } from "../../lib/store";
 import {
   SlidersHorizontal,
   X,
@@ -25,7 +25,7 @@ import {
   Leaf,
   ChevronDown,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 
 const cuisinesList = [
   "North Indian",

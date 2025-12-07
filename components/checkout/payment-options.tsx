@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "../../components/ui/card";
+import { RadioGroup, RadioGroupItem } from "../../components/ui/radio-group";
+import { Label } from "../../components/ui/label";
+import { Input } from "../../components/ui/input";
+import { Badge } from "../../components/ui/badge";
 import { 
   CreditCard, 
   Wallet, 
@@ -13,7 +13,7 @@ import {
   Shield,
   Check,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 
 export type PaymentMethod = "upi" | "card" | "wallet" | "cod";
 

@@ -9,7 +9,7 @@ import {
   FilterContext,
   defaultFilters,
   type FilterState,
-} from "@/lib/store";
+} from "../lib/store";
 import type { User, CartItemWithDetails, Restaurant, Address } from "../shared/schema";
 
 // Cart Provider

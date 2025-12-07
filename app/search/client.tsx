@@ -2,13 +2,13 @@
 
 import { useSearchParams, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
-import { RestaurantCard } from "@/components/restaurant/restaurant-card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Skeleton } from "@/components/ui/skeleton";
+import { apiRequest } from "../../lib/queryClient";
+import { RestaurantCard } from "../../components/restaurant/restaurant-card";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { Skeleton } from "../../components/ui/skeleton";
 import { Search, ArrowLeft, X } from "lucide-react";
-import type { Restaurant } from "@/shared/schema";
+import type { Restaurant } from "../../shared/schema";
 import { useState, useEffect } from "react";
 
 export default function SearchClient() {

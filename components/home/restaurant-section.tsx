@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { RestaurantCard } from "@/components/restaurant/restaurant-card";
-import { Button } from "@/components/ui/button";
+import { RestaurantCard } from "../../components/restaurant/restaurant-card";
+import { Button } from "../../components/ui/button";
 import { ArrowRight } from "lucide-react";
-import type { Restaurant } from "@/shared/schema";
+import type { Restaurant } from "../../shared/schema";
 
 interface RestaurantSectionProps {
   title: string;

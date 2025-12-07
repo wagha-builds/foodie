@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { storage } from "@/lib/storage";
+import { storage } from "../../../../lib/storage";
 
 export async function POST(request: Request) {
   const { code, orderAmount, restaurantId } = await request.json();

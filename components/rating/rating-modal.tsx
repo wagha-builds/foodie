@@ -5,15 +5,15 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
-import { Separator } from "@/components/ui/separator";
-import { useToast } from "@/hooks/use-toast";
+} from "../../components/ui/dialog";
+import { Button } from "../../components/ui/button";
+import { Textarea } from "../../components/ui/textarea";
+import { Label } from "../../components/ui/label";
+import { Slider } from "../../components/ui/slider";
+import { Separator } from "../../components/ui/separator";
+import { useToast } from "../../hooks/use-toast";
 import { Star, Upload, X, Loader2 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 
 interface RatingModalProps {
   open: boolean;

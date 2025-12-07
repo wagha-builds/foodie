@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { Badge } from "../../components/ui/badge";
 import { Search, Clock, Star, Truck } from "lucide-react";
 
 const heroImage =

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link"; // FIXED: Use Next.js Link
-import { Card } from "@/components/ui/card";
+import { Card } from "../../components/ui/card";
 
 const cuisines = [
   {
