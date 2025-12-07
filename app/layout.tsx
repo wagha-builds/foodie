@@ -10,8 +10,11 @@ const fontSans = Open_Sans({ subsets: ["latin"] });
 
 // SEO CONFIGURATION
 export const metadata: Metadata = {
-  title: "FoodSwift - Delivery App",
+  title: "Foodie - Delivery App",
   description: "Fastest food delivery in town",
+  icons: {
+    icon: "/logo.svg",
+  },
 };
 
 export default function RootLayout({

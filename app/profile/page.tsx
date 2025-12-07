@@ -3,7 +3,7 @@ import ProfileClient from "./client";
 
 export const metadata: Metadata = {
   title: "My Profile | Foodie",
-  description: "Manage your account settings",
+  description: "Manage your account and addresses",
 };
 
 export default function ProfilePage() {

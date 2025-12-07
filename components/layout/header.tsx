@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Button } from "../../components/ui/button";
 import { Badge } from "../../components/ui/badge";
@@ -183,7 +184,16 @@ export function Header() {
             
             {/* LOGO + LOCATION */}
             <div className="flex items-center gap-8">
-              <Link href="/">
+              <Link href="/" className="flex items-center gap-2">
+                <div className="relative h-10 w-10">
+                    <Image 
+                        src="/logo.svg" 
+                        alt="Foodie Logo" 
+                        fill
+                        className="object-contain"
+                        priority
+                    />
+                </div>
                 <span className="text-2xl font-bold text-orange-500 cursor-pointer tracking-tight">
                   Foodie
                 </span>

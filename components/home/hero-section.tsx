@@ -7,8 +7,8 @@ import { Input } from "../../components/ui/input";
 import { Badge } from "../../components/ui/badge";
 import { Search, Clock, Star, Truck } from "lucide-react";
 
-const heroImage =
-  "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1920&q=80";
+const heroImage = "/HeroCover.svg";
+
 
 const trustStats = [
   { icon: Star, value: "4.8", label: "Avg Rating" },

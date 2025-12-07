@@ -37,6 +37,7 @@ export default function OrderClient({ id }: { id: string }) {
   // 3. Pass the 'OrderDetail' generic to useQuery
   const { data: order, isLoading } = useQuery<OrderDetail>({
     queryKey: ["/api/orders", id],
+    refetchInterval: 2000,
   });
 
   if (isLoading) {

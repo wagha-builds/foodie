@@ -90,6 +90,93 @@ export class MemStorage implements IStorage {
     this.seedData();
   }
 
+  // --- REAL-TIME SIMULATION ENGINE ---
+  private simulateOrderProgress(order: Order): Order {
+    // Only simulate active orders
+    if (["delivered", "cancelled"].includes(order.status)) return order;
+
+    const now = new Date();
+    const createdAt = new Date(order.createdAt || now);
+    const elapsedSeconds = (now.getTime() - createdAt.getTime()) / 1000;
+
+    // Simulation Timeline (in seconds)
+    const TIME_TO_ACCEPT = 10;
+    const TIME_TO_PREPARE = 25;
+    const TIME_TO_READY = 45;
+    const TIME_TO_PICKUP = 60;
+    const TIME_TO_DELIVER = 120; // 2 minutes total for demo purposes
+
+    let updated = { ...order };
+    let changed = false;
+
+    // 1. Advance Status
+    if (elapsedSeconds > TIME_TO_ACCEPT && order.status === "pending") {
+      updated.status = "accepted";
+      updated.acceptedAt = now;
+      changed = true;
+    } else if (elapsedSeconds > TIME_TO_PREPARE && order.status === "accepted") {
+      updated.status = "preparing";
+      updated.preparingAt = now;
+      changed = true;
+    } else if (elapsedSeconds > TIME_TO_READY && order.status === "preparing") {
+      updated.status = "ready";
+      updated.readyAt = now;
+      changed = true;
+    } else if (elapsedSeconds > TIME_TO_PICKUP && order.status === "ready") {
+      updated.status = "picked_up";
+      updated.pickedUpAt = now;
+      updated.deliveryPartnerId = "simulated-driver-1"; // Assign fake driver
+      changed = true;
+    } else if (elapsedSeconds > TIME_TO_DELIVER && order.status === "picked_up") {
+      updated.status = "delivered";
+      updated.deliveredAt = now;
+      changed = true;
+    }
+
+    // 2. Simulate Driver Movement (Interpolation)
+    if (updated.status === "picked_up") {
+      // Get Restaurant Location
+      const restaurant = this.restaurants.get(order.restaurantId);
+      // Get User Address Location
+      const address = order.addressId ? this.addresses.get(order.addressId) : null;
+
+      if (restaurant && address && restaurant.latitude && restaurant.longitude && address.latitude && address.longitude) {
+        const startLat = Number(restaurant.latitude);
+        const startLng = Number(restaurant.longitude);
+        const endLat = Number(address.latitude);
+        const endLng = Number(address.longitude);
+
+        // Calculate progress (0.0 to 1.0) between Pickup and Delivery time
+        const totalTravelTime = TIME_TO_DELIVER - TIME_TO_PICKUP;
+        const currentTravelTime = elapsedSeconds - TIME_TO_PICKUP;
+        const progress = Math.min(Math.max(currentTravelTime / totalTravelTime, 0), 1);
+
+        // Linear Interpolation (Lerp)
+        const currentLat = startLat + (endLat - startLat) * progress;
+        const currentLng = startLng + (endLng - startLng) * progress;
+
+        // Add some "jitter" to make it look organic (not a perfectly straight line)
+        const jitter = (Math.random() - 0.5) * 0.0005; 
+        
+        updated.deliveryPartnerLocation = {
+          lat: currentLat + jitter,
+          lng: currentLng + jitter
+        };
+        changed = true;
+      }
+    }
+
+    // 3. Update Estimated Time
+    const remainingSeconds = Math.max(0, TIME_TO_DELIVER - elapsedSeconds);
+    updated.estimatedDeliveryTime = Math.ceil(remainingSeconds / 60);
+
+    if (changed) {
+      this.orders.set(order.id, updated);
+    }
+
+    return updated;
+  }
+
   private seedData() {
     // === SEED RESTAURANTS ===
     const restaurants: Restaurant[] = [
@@ -613,40 +700,49 @@ export class MemStorage implements IStorage {
     dishes.forEach((d) => this.dishes.set(d.id, d));
   }
 
-  // --- DATA ACCESS METHODS ---
-  async getUser(id: string) { return this.users.get(id); }
-  async getUserByEmail(email: string) { return Array.from(this.users.values()).find((u) => u.email === email); }
-  async getUserByFirebaseUid(uid: string) { return Array.from(this.users.values()).find((u) => u.firebaseUid === uid); }
-  async createUser(user: Partial<InsertUser> & { email: string; name: string }) { const id = randomUUID(); const newUser = { ...user, id, phone: user.phone ?? null, role: user.role ?? "customer", avatarUrl: user.avatarUrl ?? null, firebaseUid: user.firebaseUid ?? null }; this.users.set(id, newUser); return newUser; }
-  async updateUser(id: string, data: Partial<User>) { const user = this.users.get(id); if (!user) return undefined; const updated = { ...user, ...data }; this.users.set(id, updated); return updated; }
-  async getRestaurants() { return Array.from(this.restaurants.values()); }
-  async getRestaurant(id: string) { return this.restaurants.get(id); }
-  async getRestaurantByOwner(ownerId: string) { return Array.from(this.restaurants.values()).find((r) => r.ownerId === ownerId); }
-  async createRestaurant(restaurant: InsertRestaurant) { const id = randomUUID(); const newRest = { ...restaurant, id } as Restaurant; this.restaurants.set(id, newRest); return newRest; }
-  async updateRestaurant(id: string, data: Partial<Restaurant>) { const r = this.restaurants.get(id); if (!r) return undefined; const updated = { ...r, ...data }; this.restaurants.set(id, updated); return updated; }
-  async getMenuCategories(restaurantId: string) { return Array.from(this.menuCategories.values()).filter((c) => c.restaurantId === restaurantId).sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0)); }
-  async createMenuCategory(category: InsertMenuCategory) { const id = randomUUID(); const newCat = { ...category, id } as MenuCategory; this.menuCategories.set(id, newCat); return newCat; }
-  async getDishes(restaurantId: string) { return Array.from(this.dishes.values()).filter((d) => d.restaurantId === restaurantId); }
-  async getDish(id: string) { return this.dishes.get(id); }
-  async createDish(dish: InsertDish) { const id = randomUUID(); const newDish = { ...dish, id } as Dish; this.dishes.set(id, newDish); return newDish; }
-  async updateDish(id: string, data: Partial<Dish>) { const d = this.dishes.get(id); if (!d) return undefined; const updated = { ...d, ...data }; this.dishes.set(id, updated); return updated; }
-  async getOrders(userId: string) { return Array.from(this.orders.values()).filter((o) => o.userId === userId).sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()); }
-  async getOrder(id: string) { return this.orders.get(id); }
-  async getOrdersByRestaurant(restaurantId: string) { return Array.from(this.orders.values()).filter((o) => o.restaurantId === restaurantId).sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()); }
-  async getAvailableOrdersForDelivery() { return Array.from(this.orders.values()).filter((o) => o.status === "ready" && !o.deliveryPartnerId); }
-  async createOrder(order: InsertOrder) { const id = randomUUID(); const newOrder = { ...order, id, createdAt: new Date() } as Order; this.orders.set(id, newOrder); return newOrder; }
-  async updateOrder(id: string, data: Partial<Order>) { const o = this.orders.get(id); if (!o) return undefined; const updated = { ...o, ...data }; if (data.status) { if (data.status === 'accepted') updated.acceptedAt = new Date(); if (data.status === 'preparing') updated.preparingAt = new Date(); if (data.status === 'ready') updated.readyAt = new Date(); if (data.status === 'picked_up') updated.pickedUpAt = new Date(); if (data.status === 'delivered') updated.deliveredAt = new Date(); } this.orders.set(id, updated); return updated; }
-  async getAddresses(userId: string) { return Array.from(this.addresses.values()).filter((a) => a.userId === userId); }
-  async getAddress(id: string) { return this.addresses.get(id); }
-  async createAddress(address: InsertAddress) { const id = randomUUID(); const newAddr = { ...address, id } as Address; this.addresses.set(id, newAddr); return newAddr; }
-  async deleteAddress(id: string) { this.addresses.delete(id); }
-  async getDeliveryPartner(userId: string) { return Array.from(this.deliveryPartners.values()).find((p) => p.userId === userId); }
-  async createDeliveryPartner(partner: InsertDeliveryPartner) { const id = randomUUID(); const newP = { ...partner, id } as DeliveryPartner; this.deliveryPartners.set(id, newP); return newP; }
-  async updateDeliveryPartner(userId: string, data: Partial<DeliveryPartner>) { const p = await this.getDeliveryPartner(userId); if (!p) return undefined; const updated = { ...p, ...data }; this.deliveryPartners.set(p.id, updated); return updated; }
-  async getCoupon(code: string) { return this.coupons.get(code.toUpperCase()); }
-  async validateCoupon(code: string, amount: number, restaurantId?: string) { const c = await this.getCoupon(code); if (!c || !c.isActive) return null; if (c.minOrderAmount && amount < Number(c.minOrderAmount)) return null; if (c.restaurantId && c.restaurantId !== restaurantId) return null; if (c.usageLimit && c.usedCount && c.usedCount >= c.usageLimit) return null; if (c.validUntil && new Date() > new Date(c.validUntil)) return null; return c; }
-  async createDishReview(review: InsertDishReview) { const id = randomUUID(); const newReview = { ...review, id, createdAt: new Date() } as DishReview; this.dishReviews.set(id, newReview); return newReview; }
-  async getDishReviews(dishId: string) { return Array.from(this.dishReviews.values()).filter((r) => r.dishId === dishId).sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()); }
+// --- DATA ACCESS METHODS ---
+async getUser(id: string) { return this.users.get(id); }
+async getUserByEmail(email: string) { return Array.from(this.users.values()).find((u) => u.email === email); }
+async getUserByFirebaseUid(uid: string) { return Array.from(this.users.values()).find((u) => u.firebaseUid === uid); }
+async createUser(user: Partial<InsertUser> & { email: string; name: string }) { const id = randomUUID(); const newUser = { ...user, id, phone: user.phone ?? null, role: user.role ?? "customer", avatarUrl: user.avatarUrl ?? null, firebaseUid: user.firebaseUid ?? null }; this.users.set(id, newUser); return newUser; }
+async updateUser(id: string, data: Partial<User>) { const user = this.users.get(id); if (!user) return undefined; const updated = { ...user, ...data }; this.users.set(id, updated); return updated; }
+async getRestaurants() { return Array.from(this.restaurants.values()); }
+async getRestaurant(id: string) { return this.restaurants.get(id); }
+async getRestaurantByOwner(ownerId: string) { return Array.from(this.restaurants.values()).find((r) => r.ownerId === ownerId); }
+async createRestaurant(restaurant: InsertRestaurant) { const id = randomUUID(); const newRest = { ...restaurant, id } as Restaurant; this.restaurants.set(id, newRest); return newRest; }
+async updateRestaurant(id: string, data: Partial<Restaurant>) { const r = this.restaurants.get(id); if (!r) return undefined; const updated = { ...r, ...data }; this.restaurants.set(id, updated); return updated; }
+async getMenuCategories(restaurantId: string) { return Array.from(this.menuCategories.values()).filter((c) => c.restaurantId === restaurantId).sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0)); }
+async createMenuCategory(category: InsertMenuCategory) { const id = randomUUID(); const newCat = { ...category, id } as MenuCategory; this.menuCategories.set(id, newCat); return newCat; }
+async getDishes(restaurantId: string) { return Array.from(this.dishes.values()).filter((d) => d.restaurantId === restaurantId); }
+async getDish(id: string) { return this.dishes.get(id); }
+async createDish(dish: InsertDish) { const id = randomUUID(); const newDish = { ...dish, id } as Dish; this.dishes.set(id, newDish); return newDish; }
+async updateDish(id: string, data: Partial<Dish>) { const d = this.dishes.get(id); if (!d) return undefined; const updated = { ...d, ...data }; this.dishes.set(id, updated); return updated; }
+async getOrders(userId: string) { 
+  // Simulate progress for ALL user orders when fetched
+  const userOrders = Array.from(this.orders.values()).filter((o) => o.userId === userId);
+  return userOrders.map(o => this.simulateOrderProgress(o)).sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+}
+async getOrder(id: string) { 
+  const order = this.orders.get(id); 
+  if (!order) return undefined;
+  // Simulate progress on fetch
+  return this.simulateOrderProgress(order);
+}
+async getOrdersByRestaurant(restaurantId: string) { return Array.from(this.orders.values()).filter((o) => o.restaurantId === restaurantId).sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()); }
+async getAvailableOrdersForDelivery() { return Array.from(this.orders.values()).filter((o) => o.status === "ready" && !o.deliveryPartnerId); }
+async createOrder(order: InsertOrder) { const id = randomUUID(); const newOrder = { ...order, id, createdAt: new Date() } as Order; this.orders.set(id, newOrder); return newOrder; }
+async updateOrder(id: string, data: Partial<Order>) { const o = this.orders.get(id); if (!o) return undefined; const updated = { ...o, ...data }; if (data.status) { if (data.status === 'accepted') updated.acceptedAt = new Date(); if (data.status === 'preparing') updated.preparingAt = new Date(); if (data.status === 'ready') updated.readyAt = new Date(); if (data.status === 'picked_up') updated.pickedUpAt = new Date(); if (data.status === 'delivered') updated.deliveredAt = new Date(); } this.orders.set(id, updated); return updated; }
+async getAddresses(userId: string) { return Array.from(this.addresses.values()).filter((a) => a.userId === userId); }
+async getAddress(id: string) { return this.addresses.get(id); }
+async createAddress(address: InsertAddress) { const id = randomUUID(); const newAddr = { ...address, id } as Address; this.addresses.set(id, newAddr); return newAddr; }
+async deleteAddress(id: string) { this.addresses.delete(id); }
+async getDeliveryPartner(userId: string) { return Array.from(this.deliveryPartners.values()).find((p) => p.userId === userId); }
+async createDeliveryPartner(partner: InsertDeliveryPartner) { const id = randomUUID(); const newP = { ...partner, id } as DeliveryPartner; this.deliveryPartners.set(id, newP); return newP; }
+async updateDeliveryPartner(userId: string, data: Partial<DeliveryPartner>) { const p = await this.getDeliveryPartner(userId); if (!p) return undefined; const updated = { ...p, ...data }; this.deliveryPartners.set(p.id, updated); return updated; }
+async getCoupon(code: string) { return this.coupons.get(code.toUpperCase()); }
+async validateCoupon(code: string, amount: number, restaurantId?: string) { const c = await this.getCoupon(code); if (!c || !c.isActive) return null; if (c.minOrderAmount && amount < Number(c.minOrderAmount)) return null; if (c.restaurantId && c.restaurantId !== restaurantId) return null; if (c.usageLimit && c.usedCount && c.usedCount >= c.usageLimit) return null; if (c.validUntil && new Date() > new Date(c.validUntil)) return null; return c; }
+async createDishReview(review: InsertDishReview) { const id = randomUUID(); const newReview = { ...review, id, createdAt: new Date() } as DishReview; this.dishReviews.set(id, newReview); return newReview; }
+async getDishReviews(dishId: string) { return Array.from(this.dishReviews.values()).filter((r) => r.dishId === dishId).sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()); }
 }
 
 const globalForStorage = globalThis as unknown as { storage: MemStorage };

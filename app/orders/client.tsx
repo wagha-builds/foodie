@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/ta
 import { Button } from "../../components/ui/button";
 import { useToast } from "../../hooks/use-toast";
 import { ShoppingBag, Loader2 } from "lucide-react";
-import type { Order } from "../../shared/schema"; //
+import type { Order } from "../../shared/schema";
 import Link from "next/link";
 
 interface OrderWithDetails extends Order {
@@ -30,16 +30,16 @@ export default function OrdersClient() {
     }
   }, [isAuthenticated, authLoading, router]);
 
-  // Fetch Orders
-  const { data: orders = [], isLoading } = useQuery<OrderWithDetails[]>({
+// Fetch Orders with polling
+const { data: orders = [], isLoading } = useQuery<OrderWithDetails[]>({
     queryKey: ["/api/orders", user?.id],
     enabled: !!user?.id,
     queryFn: async () => {
       const res = await apiRequest("GET", `/api/orders?userId=${user?.id}`);
       return res.json();
     },
+    refetchInterval: 5000, // Poll list every 5 seconds
   });
-
   // Cancel Order Mutation
   const cancelOrderMutation = useMutation({
     mutationFn: async (orderId: string) => {
@@ -104,6 +104,8 @@ export default function OrdersClient() {
               <OrderCard 
                 key={order.id}
                 order={order}
+                onCancel={() => cancelOrderMutation.mutate(order.id)}
+                isCancelling={cancelOrderMutation.isPending}
               />
             ))
           )}

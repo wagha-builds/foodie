@@ -65,7 +65,7 @@ export function RestaurantCard({ restaurant }: RestaurantCardProps) {
           </Button>
 
           {/* Delivery Time Badge */}
-          <div className="absolute bottom-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-semibold shadow-sm flex items-center gap-1">
+          <div className="absolute bottom-3 right-3 bg-black/50 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-semibold shadow-sm flex items-center gap-1">
             <Clock className="h-3 w-3" />
             {restaurant.deliveryTime} mins
           </div>
