@@ -94,11 +94,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const getTotal = useCallback(() => {
     const subtotal = items.reduce((sum, item) => sum + Number(item.totalPrice), 0);
-    const deliveryFee = restaurant ? Number(restaurant.deliveryFee) : 0;
+    
+    // Delivery fee constraints: < 150 gets charged 50, otherwise free
+    let deliveryFee = 0;
+    if (subtotal > 0) {
+      deliveryFee = subtotal < 150 ? 50 : 0;
+    }
+
     const taxes = subtotal * 0.05; // 5% GST
     const total = subtotal + deliveryFee + taxes;
     return { subtotal, deliveryFee, taxes, total };
-  }, [items, restaurant]);
+  }, [items]);
 
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
