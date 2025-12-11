@@ -95,7 +95,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const getTotal = useCallback(() => {
     const subtotal = items.reduce((sum, item) => sum + Number(item.totalPrice), 0);
     
-    // Delivery fee constraints: < 150 gets charged 50, otherwise free
+    // UPDATED LOGIC: Delivery fee constraints
+    // If subtotal is 0 (empty cart), fee is 0.
+    // If subtotal is > 0 but < 150, fee is 50.
+    // If subtotal is >= 150, fee is 0 (Free).
     let deliveryFee = 0;
     if (subtotal > 0) {
       deliveryFee = subtotal < 150 ? 50 : 0;
@@ -143,8 +146,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   });
   const [isLoading] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
-
-
 
   const handleSetUser = useCallback((newUser: User | null) => {
     setUser(newUser);
@@ -198,9 +199,9 @@ export function LocationProvider({ children }: { children: ReactNode }) {
     try {
       const position = await new Promise<GeolocationPosition>((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject, {
-          enableHighAccuracy: true, // <--- CHANGED: Set to true for GPS
-          timeout: 20000,           // <--- CHANGED: Increased timeout for GPS lock
-          maximumAge: 0             // <--- CHANGED: Do not use cached position
+          enableHighAccuracy: true,
+          timeout: 20000,
+          maximumAge: 0
         });
       });
 
